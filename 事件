@@ -1,0 +1,38 @@
+1. 事件处理
+	1.1 on()绑定事件
+		1.1.1 可绑定多个事件，多个处理事件处理程序
+			$("div").on({
+				mouseover: function() {},
+				mouseout: function(){},
+				click: function(){}
+			})
+		1.1.2 如果事件处理程序相同
+			$("dive").on("mouseover mouseout", function() {})
+		1.1.3 可是实现事件委派操作
+			事件委派：把原来要加给子元素的事件绑定在父元素上
+			例如需求：ul里面有很多li，不想每个li都绑定function。
+			$("ul").on("click", "li", function() {})
+			分析：这条语句把function现在绑在了ul上，但是利用冒泡，点击某个li同样会触发事件，同时其他li没有绑定事件
+		1.1.4 可以给动态创建的未来元素绑定事件
+			$("ol").on("click", "li", function() {
+				alert(1);
+			})
+			var li = $("<li>新建元素</li>");
+			$("ol").append(li);
+			分析：绑定事件语句的位置在创建元素语句之前，但是仍然可以绑定
+	1.2 off()解绑事件
+		解绑p元素所有事件处理程序：$("p").off();
+		解绑p元素上的点击函数：$("p").off("click");
+		解绑p元素上的事件委托：$("p").off("click", "li");
+	1.3 只触发一次：one()
+	1.4 自动触发事件
+		1.4.1 元素.事件()：$("div").click();
+		1.4.2 元素.trigger("事件")：$("div").trigger("click");
+		1.4.3 元素.triggerHandler("事件")：$("div").triggerHandler("click");
+		前两种会触发默认行为，第三种不会
+
+2. 事件对象
+	element.on(events, [selector], function(e) {})
+	e就是事件对象
+	阻止默认行为：event.preventDefault()或者return false
+	阻止冒泡：event.stopPropagation()
